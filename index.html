@@ -79,7 +79,9 @@
 </script>
 
 
-    <script> yiliaConfig.jquery_ui = [false]; </script>
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
 
 
 
@@ -134,11 +136,6 @@
                         </div>
                         
                         
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
                     </div>
                     
                 </div>
@@ -150,8 +147,6 @@
                         
                         <li>友情链接</li>
                         
-                        
-                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -192,7 +187,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li></ul>
                     </div>
                 </section>
                 
@@ -211,12 +206,6 @@
                 </section>
                 
 
-                
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">专注于前端</div>
-                </section>
                 
             </div>
         </div>
@@ -270,6 +259,67 @@
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Python（一）基础篇之【数据类型】" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/11/Python（一）基础篇之【数据类型】/" class="article-date">
+      <time datetime="2017-08-11T03:02:51.000Z" itemprop="datePublished">2017-08-11</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/11/Python（一）基础篇之【数据类型】/">Python（一）基础篇之【数据类型】</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2><p><img src="http://upload-images.jianshu.io/upload_images/4101271-2910ac26266ef0ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h2 id="数据类型的分类"><a href="#数据类型的分类" class="headerlink" title="数据类型的分类"></a>数据类型的分类</h2><h2 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h2><p>Python Number 数据类型用于存储数值。<br>数据类型是不允许改变的,这就意味着如果改变 Number 数据类型的值，将重新分配内存空间。</p>
+<h3 id="int"><a href="#int" class="headerlink" title="int"></a>int</h3><h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><h2 id="列表-元组"><a href="#列表-元组" class="headerlink" title="列表 | 元组"></a>列表 | 元组</h2><h2 id="字典-集合"><a href="#字典-集合" class="headerlink" title="字典 | 集合"></a>字典 | 集合</h2>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-面试100道题" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -417,12 +467,9 @@
 <p>RabbitMQ 中默认的虚拟主机为：“/”。</p>
 <h2 id="消息持久化"><a href="#消息持久化" class="headerlink" title="消息持久化"></a>消息持久化</h2><p>默认情况下，如果 RabbitMQ 进行了重启，那么队列、交换器和其中的消息都会丢失。如果想要你的数据在重启后不丢失，那么就需要对消息进行持久化设置。主要操作如下：</p>
 <ul>
-<li><p>将消息的投递模式（delivery mode）设置为 2（持久）。</p>
-</li>
-<li><p>将消息发送到持久化的交换器。</p>
-</li>
-<li><p>消息必须到达持久化的队列。</p>
-</li>
+<li>将消息的投递模式（delivery mode）设置为 2（持久）。</li>
+<li>将消息发送到持久化的交换器。</li>
+<li>消息必须到达持久化的队列。</li>
 </ul>
 <p>RabbitMQ 是通过将消息写入磁盘中的持久化日志中的方式实现消息的持久化的。如果持久化队列中的某条消息被消费了，那么 RabbitMQ 会在持久化日志中将该消息标记为等待垃圾收集。</p>
 <h2 id="管理-RabbitMQ"><a href="#管理-RabbitMQ" class="headerlink" title="管理 RabbitMQ"></a>管理 RabbitMQ</h2><p>前面的部分介绍了一些 RabbitMQ 中比较重要的概念和消息的相关知识，接下来介绍如何对 RabbitMQ 进行管理。</p>
@@ -430,12 +477,9 @@
 <p>启动 RabbitMQ 通常使用 <code>rabbitmq-server</code>工具，但需要注意的是，使用该命令启动的包括 Erlang 节点和 RabbitMQ 应用。同时，还把 RabbitMQ 应用设置成了独立运行模式。</p>
 <p>对于 RabbitMQ 应用的管理，通常使用 <code>rabbitmqctl</code> 工具：</p>
 <ul>
-<li><p>stop 参数：将本地节点干净的关闭，包括 RabbitMQ 应用和 Erlang 节点。同时，可以使用 <code>-n rabbit@hostname</code> 参数，关闭指定的远程节点。</p>
-</li>
-<li><p>stop_app 参数：只关闭 RabbitMQ 应用。</p>
-</li>
-<li><p>start_app 参数：只启动 RabbitMQ 应用。</p>
-</li>
+<li>stop 参数：将本地节点干净的关闭，包括 RabbitMQ 应用和 Erlang 节点。同时，可以使用 <code>-n rabbit@hostname</code> 参数，关闭指定的远程节点。</li>
+<li>stop_app 参数：只关闭 RabbitMQ 应用。</li>
+<li>start_app 参数：只启动 RabbitMQ 应用。</li>
 </ul>
 <h2 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h2><p>对于 RabbitMQ 的内建集群，主要用于完成两个设计目标：</p>
 <ul>
@@ -445,10 +489,8 @@
 <p>在默认情况下，如果集群中某个节点崩溃了，那么在该节点上队列上的消息也就丢失了，因为 RabbitMQ 不会将节点上的队列复制到整个集群中。</p>
 <p>不论是在单节点系统中还是集群，对于 RabbitMQ 节点来说，要么是内存节点，要么是磁盘节点。两者间的主要区别：</p>
 <ul>
-<li><p>内存节点：所有队列、交换器、绑定、用户、权限和 vhost 的元数据定义都只是存储在内存中。</p>
-</li>
-<li><p>磁盘节点：所有的元数据信息存储在磁盘中。对于单节点系统，只允许节点为磁盘节点。</p>
-</li>
+<li>内存节点：所有队列、交换器、绑定、用户、权限和 vhost 的元数据定义都只是存储在内存中。</li>
+<li>磁盘节点：所有的元数据信息存储在磁盘中。对于单节点系统，只允许节点为磁盘节点。</li>
 </ul>
 <p>当在集群中声明交换器、队列和绑定时，这些操作会等到集群中所有节点都成功提交元数据后才返回。</p>
 <p>在 RabbitMQ 集群中，要求至少有一个磁盘节点，当有节点加入或离开时，需要将该变更通知到至少一个磁盘节点。</p>
