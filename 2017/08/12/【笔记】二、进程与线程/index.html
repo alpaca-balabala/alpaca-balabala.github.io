@@ -23,23 +23,23 @@
 <meta property="og:site_name" content="balabala&#39;s Blog">
 <meta property="og:description" content="在传统的操作系统中，为了提高资源利用率和系统吞吐量，通常采用多道程序技术，将多个程序同时装入内存，并使之并发运行，传统意义上的程序不再能独立运行。此时，作为资源分配和独立运行的基本单位都是进程。操作系统所具有的四大特征也都是基于进程而形成的，并从进程的角度对操作系统进行研究。可见，在操作系统中，进程是一个及其重要的概念。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812125716.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812130314.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812130526.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812132715.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812133149.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812150537.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812150553.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812134748.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812134857.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812134955.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812135957.png">
-<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812140517.png">
-<meta property="og:updated_time" content="2017-08-12T07:16:25.609Z">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812125716.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812130314.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812130526.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812132715.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812133149.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812150537.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812150553.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812134748.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812134857.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812134955.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812135957.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812140517.png">
+<meta property="og:updated_time" content="2017-08-12T08:09:46.547Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【笔记】二、进程与线程">
 <meta name="twitter:description" content="在传统的操作系统中，为了提高资源利用率和系统吞吐量，通常采用多道程序技术，将多个程序同时装入内存，并使之并发运行，传统意义上的程序不再能独立运行。此时，作为资源分配和独立运行的基本单位都是进程。操作系统所具有的四大特征也都是基于进程而形成的，并从进程的角度对操作系统进行研究。可见，在操作系统中，进程是一个及其重要的概念。">
-<meta name="twitter:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812125716.png">
+<meta name="twitter:image" content="http://alpaca-balabala.github.io/images/2017-08-12/QQ截图20170812125716.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -350,7 +350,7 @@
 <li>运行状态→阻塞状态</li>
 <li>运行状态→就绪状态</li>
 <li>就绪状态→运行状态</li>
-<li>阻塞状态→就绪状态<br><img src="images/2017-08-12/QQ截图20170812125716.png" alt=""><br><img src="images/2017-08-12/QQ截图20170812130314.png" alt=""><br><img src="images/2017-08-12/QQ截图20170812130526.png" alt=""></li>
+<li>阻塞状态→就绪状态<br><img src="../../../../images/2017-08-12/QQ截图20170812125716.png" alt=""><br><img src="../../../../images/2017-08-12/QQ截图20170812130314.png" alt=""><br><img src="../../../../images/2017-08-12/QQ截图20170812130526.png" alt=""></li>
 </ol>
 <h3 id="进程控制"><a href="#进程控制" class="headerlink" title="进程控制"></a>进程控制</h3><p><strong>进程创建</strong></p>
 <blockquote>
@@ -419,7 +419,7 @@
 <li>进程内存资源分配</li>
 <li>进程设备和文件的分配和使用情况</li>
 </ul>
-<p><strong>进程控制块的组织</strong><br><em>链表方式、索引方式</em><br><img src="images/2017-08-12/QQ截图20170812132715.png" alt=""></p>
+<p><strong>进程控制块的组织</strong><br><em>链表方式、索引方式</em><br><img src="../../../../images/2017-08-12/QQ截图20170812132715.png" alt=""></p>
 <p><strong>进程通信</strong></p>
 <ul>
 <li>进程通信：进程间的信息交换工作称为进程间的通信</li>
@@ -430,7 +430,7 @@
 </ul>
 <p><strong>线程概念和多线程模型</strong></p>
 <ul>
-<li>线程的引入<br><img src="images/2017-08-12/QQ截图20170812133149.png" alt=""></li>
+<li>线程的引入<br><img src="../../../../images/2017-08-12/QQ截图20170812133149.png" alt=""></li>
 <li>线程的属性<ul>
 <li>轻型实体（容易创建和撤销）</li>
 <li><strong>独立调度和分派的基本单位</strong></li>
@@ -439,23 +439,23 @@
 <li>适应硬件的发展</li>
 </ul>
 </li>
-<li>线程表<br><img src="images/2017-08-12/QQ截图20170812150537.png" alt=""></li>
+<li>线程表<br><img src="../../../../images/2017-08-12/QQ截图20170812150537.png" alt=""></li>
 <li><p>线程实体</p>
 <blockquote>
-<p>线程是进程中的一个实体，它是操作系统进行<strong>独立调度和分派的基本单位</strong>，但<strong>不是资源分配的基本单位</strong>。<br><img src="images/2017-08-12/QQ截图20170812150553.png" alt=""></p>
+<p>线程是进程中的一个实体，它是操作系统进行<strong>独立调度和分派的基本单位</strong>，但<strong>不是资源分配的基本单位</strong>。<br><img src="../../../../images/2017-08-12/QQ截图20170812150553.png" alt=""></p>
 </blockquote>
 </li>
 <li><p>线程实现方式：线程在具体实现时形式上又分为内核线程和用户线程。</p>
 </li>
-<li>内核线程<br><img src="images/2017-08-12/QQ截图20170812134748.png" alt=""></li>
-<li>用户线程<br><img src="images/2017-08-12/QQ截图20170812134857.png" alt=""></li>
-<li>多线程模型<br><img src="images/2017-08-12/QQ截图20170812134955.png" alt=""><br>注：轻量级进程——只含有一个线程的进程</li>
+<li>内核线程<br><img src="../../../../images/2017-08-12/QQ截图20170812134748.png" alt=""></li>
+<li>用户线程<br><img src="../../../../images/2017-08-12/QQ截图20170812134857.png" alt=""></li>
+<li>多线程模型<br><img src="../../../../images/2017-08-12/QQ截图20170812134955.png" alt=""><br>注：轻量级进程——只含有一个线程的进程</li>
 </ul>
 <h2 id="处理机调度"><a href="#处理机调度" class="headerlink" title="处理机调度"></a>处理机调度</h2><h3 id="调度的基本概念"><a href="#调度的基本概念" class="headerlink" title="调度的基本概念"></a>调度的基本概念</h3><p><strong>调度的基本概念</strong></p>
 <blockquote>
 <p>进程的数量多于处理机的个数，竞争处理机。分配处理机的任务由进程调度<br>程序完成，由进程分派程序具体实行。用一定的算法，动态地把处理机分配给进程，使之能公平、合理和高效地运行。调度是分层次的。—个作业从提交开始，直到完成，往往要经历多级调度。</p>
 </blockquote>
-<p><img src="images/2017-08-12/QQ截图20170812135957.png" alt=""></p>
+<p><img src="../../../../images/2017-08-12/QQ截图20170812135957.png" alt=""></p>
 <p><strong>作业调度</strong></p>
 <blockquote>
 <p>作业调度又称宏观调度或高级调度。其主要任务是按一定的原则，对外存储器中处于后备状态的作业进行选择。</p>
@@ -466,7 +466,7 @@
 <p>进程调度是操作系统中最基本的调度。调度过程体现了现代操作系统将策略与机制分离的设计思想，调度考虑的是选择进程的算法，并将算法选择提供给用户使用；而<strong>分派程序</strong>是机制，它是直接进行处理机切换的操作者。</p>
 </blockquote>
 <p><del><strong>交换调度：</strong>交换调度又称中级调度。</del>（内存中研究的）</p>
-<p><img src="images/2017-08-12/QQ截图20170812140517.png" alt=""></p>
+<p><img src="../../../../images/2017-08-12/QQ截图20170812140517.png" alt=""></p>
 <p><strong>调度目标和准则</strong></p>
 <ul>
 <li>公平性：确保每个进程都能公平地获得处理机的机会</li>
