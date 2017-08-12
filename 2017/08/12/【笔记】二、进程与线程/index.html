@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="alpaca-balabala" />
+
+
+
+<meta name="description" content="在传统的操作系统中，为了提高资源利用率和系统吞吐量，通常采用多道程序技术，将多个程序同时装入内存，并使之并发运行，传统意义上的程序不再能独立运行。此时，作为资源分配和独立运行的基本单位都是进程。操作系统所具有的四大特征也都是基于进程而形成的，并从进程的角度对操作系统进行研究。可见，在操作系统中，进程是一个及其重要的概念。">
+<meta name="keywords" content="OS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【笔记】二、进程与线程">
+<meta property="og:url" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/index.html">
+<meta property="og:site_name" content="balabala&#39;s Blog">
+<meta property="og:description" content="在传统的操作系统中，为了提高资源利用率和系统吞吐量，通常采用多道程序技术，将多个程序同时装入内存，并使之并发运行，传统意义上的程序不再能独立运行。此时，作为资源分配和独立运行的基本单位都是进程。操作系统所具有的四大特征也都是基于进程而形成的，并从进程的角度对操作系统进行研究。可见，在操作系统中，进程是一个及其重要的概念。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812125716.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812130314.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812130526.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812132715.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812133149.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812150537.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812150553.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812134748.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812134857.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812134955.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812135957.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812140517.png">
+<meta property="og:updated_time" content="2017-08-12T07:16:25.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【笔记】二、进程与线程">
+<meta name="twitter:description" content="在传统的操作系统中，为了提高资源利用率和系统吞吐量，通常采用多道程序技术，将多个程序同时装入内存，并使之并发运行，传统意义上的程序不再能独立运行。此时，作为资源分配和独立运行的基本单位都是进程。操作系统所具有的四大特征也都是基于进程而形成的，并从进程的角度对操作系统进行研究。可见，在操作系统中，进程是一个及其重要的概念。">
+<meta name="twitter:image" content="http://alpaca-balabala.github.io/2017/08/12/【笔记】二、进程与线程/images/2017-08-12/QQ截图20170812125716.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="balabala&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>【笔记】二、进程与线程 | balabala&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">alpaca-balabala</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:hljshaoqi@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="https://weibo.com/" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/alpaca-balabala" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python基础/">Python基础</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://woaielf.github.io/">ZY | 数林觅风</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://github.com/jobbole/awesome-python-cn">Pyrhon资源大全</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">alpaca-balabala</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">alpaca-balabala</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:hljshaoqi@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="https://weibo.com/" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/alpaca-balabala" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-【笔记】二、进程与线程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/12/【笔记】二、进程与线程/" class="article-date">
+      <time datetime="2017-08-12T04:53:49.000Z" itemprop="datePublished">2017-08-12</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【笔记】二、进程与线程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/笔记/">笔记</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/">OS</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><h3 id="进程概念"><a href="#进程概念" class="headerlink" title="进程概念"></a>进程概念</h3><ul>
+<li>一个具有一定独立功能的程序对某个数据集合上的一次动态执行过程和资源分配过程</li>
+<li>进程的元素：代码、数据、<strong>进程表</strong>（进程控制块） Code、Data、PT（<strong>PCB</strong>）</li>
+<li>是<strong>资源分配的基本单位</strong></li>
+</ul>
+<h3 id="进程和程序的区别与联系"><a href="#进程和程序的区别与联系" class="headerlink" title="进程和程序的区别与联系"></a>进程和程序的区别与联系</h3><ul>
+<li>进程是动态的，程序是静态的</li>
+<li>进程是暂时的，程序是永久的</li>
+<li>进程和程序的组成不同<ul>
+<li>程序主要包含代码和数据</li>
+<li>进程除了包含代码和数据以外，还有进程表</li>
+</ul>
+</li>
+<li>进程和程序间有非常紧密的联系<ul>
+<li>程序经过多次创建，可以对应不同的进程</li>
+<li>一个进程通过系统调用，可以被多个程序所使用</li>
+</ul>
+</li>
+</ul>
+<h3 id="进程概念-1"><a href="#进程概念-1" class="headerlink" title="进程概念"></a>进程概念</h3><p>动态性、并发性、独立性、异步性（提高利用率）</p>
+<h3 id="进程的状态与转换"><a href="#进程的状态与转换" class="headerlink" title="进程的状态与转换"></a>进程的状态与转换</h3><p><strong>状态：</strong></p>
+<ul>
+<li>运行状态（Running）</li>
+<li>阻塞状态（Blocked）</li>
+<li>就绪状态（Ready）</li>
+</ul>
+<p><strong>转换：</strong></p>
+<ol>
+<li>运行状态→阻塞状态</li>
+<li>运行状态→就绪状态</li>
+<li>就绪状态→运行状态</li>
+<li>阻塞状态→就绪状态<br><img src="images/2017-08-12/QQ截图20170812125716.png" alt=""><br><img src="images/2017-08-12/QQ截图20170812130314.png" alt=""><br><img src="images/2017-08-12/QQ截图20170812130526.png" alt=""></li>
+</ol>
+<h3 id="进程控制"><a href="#进程控制" class="headerlink" title="进程控制"></a>进程控制</h3><p><strong>进程创建</strong></p>
+<blockquote>
+<p>进程创建原语的主要工作是：首先查找系统的 PCB 表，查询有无空的 PCB<br>表项，如有，则申请一个，并对其进程初始化。初始化的项目有进程标识符（PID）、进程状态和运行程序的起始地址等；如果申请不成功，则返回创建失败信息。创建完成后，将进程表插入到就绪队列中。</p>
+</blockquote>
+<p><strong>进程创建的典型事件</strong></p>
+<ul>
+<li>用户登录</li>
+<li>作业调度</li>
+<li>提供服务</li>
+<li>应用请求</li>
+</ul>
+<p><strong>进程的创建过程</strong></p>
+<ul>
+<li>申请空白进程表</li>
+<li>为新进程分配资源</li>
+<li>初始化进程表</li>
+<li>如果进程就绪队列能够接纳新进程， 便将新进程插入就绪队列</li>
+</ul>
+<p><strong>进程撤销</strong></p>
+<blockquote>
+<p>撤销原语的主要工作是：首先检查 PCB 链表，寻找所要撤销的进程是否存在。如果找到了相应的表项后，撤销原语就释放该进程占用的资源并回收对应的PCB 数据结构。如果被撤销的进程还有子进程，则进程撤销原语必须先撤销子进程的 PCB 并释放其所占用的资源。</p>
+</blockquote>
+<ul>
+<li>正常结束（自愿的）</li>
+<li>异常结束<ul>
+<li>普通错误退出（自愿的）</li>
+<li>致命错误退出（非自愿的）</li>
+</ul>
+</li>
+<li>外界干预（非自愿的）</li>
+</ul>
+<p><strong>进程阻塞</strong></p>
+<blockquote>
+<p>进程阻塞原语的运行：先停止处理机并同时保存该进程的处理机现场。然后将阻塞进程插入到等待队列中，再将控制权交给调度程序，调度程序会按调度算法从就绪队列中选择一个进程投入运行。</p>
+</blockquote>
+<p><strong>进程唤醒</strong></p>
+<blockquote>
+<p>唤醒原语工作：将被唤醒的进程从相应的等待队列移出，并将其 PCB 中状<br>态置为就绪态，并将其送入就绪队列。此时，唤醒原语既可以从调用程序处直接返回，也可以转向进程调度程序，由调度程序来选择一个合适的进程去运行。</p>
+<p>一个进程由运行状态转变为阻塞状态，是这个进程自己调用阻塞原语去完成<br>的，而进程由阻塞状态到就绪状态，却是另一个进程调用唤醒原语实现的，一般情况下，这个进程与被唤醒进程是具有一定相关性的并发进程。</p>
+</blockquote>
+<p><strong>引起进程阻塞和唤醒的事件</strong></p>
+<ul>
+<li>请求系统服务</li>
+<li>启动某种操作</li>
+<li>新数据尚未到达</li>
+<li>无新工作可做</li>
+</ul>
+<p><strong>进程挂起</strong></p>
+<blockquote>
+<p>挂起原语工作：将进程交换到外存交换区挂起，释放其在内存中占用的资源，改写 PCB，返回系统。</p>
+</blockquote>
+<p><strong>进程激活</strong></p>
+<blockquote>
+<p>激活原语工作：将进程从外存交换区调入内存（需要重新申请内存），进行<br>内存重定位，改写 PCB 进程状态信息，内存分配信息，程序计数器等，返回激活原语调用处。当激活后的进程处于就绪状态时，返回后控制权将交还给调度程序，重新调度。</p>
+</blockquote>
+<h3 id="进程组织"><a href="#进程组织" class="headerlink" title="进程组织"></a>进程组织</h3><p><strong>进程实体</strong><br><em>程序、数据集合、进程控制块（PCB）</em></p>
+<ul>
+<li>程序：也称正文，描述进程所要完成的功能，特指二进制的指令代码。</li>
+<li>数据集合：程序运行所需要的数据结构。包括常数，变量，堆，数据栈等。</li>
+<li>进程控制块：进程控制块包含了进程的描述信息、控制信息和资源信息，是进程动态特性的集中反映。</li>
+</ul>
+<p><strong>进程控制块 PCB：进程表 PT</strong></p>
+<ul>
+<li>进程控制信息<br>—进程的基本信息<br>—处理机管理信息</li>
+<li>进程内存资源分配</li>
+<li>进程设备和文件的分配和使用情况</li>
+</ul>
+<p><strong>进程控制块的组织</strong><br><em>链表方式、索引方式</em><br><img src="images/2017-08-12/QQ截图20170812132715.png" alt=""></p>
+<p><strong>进程通信</strong></p>
+<ul>
+<li>进程通信：进程间的信息交换工作称为进程间的通信</li>
+<li>P、V 操作称为低级通信</li>
+<li>高级通信方式可分为三大类：共享内存、消息传递、管道机制</li>
+<li>UNIX 通信还有信号（Signal）机制</li>
+<li>网络通信还有套接字（Socket）</li>
+</ul>
+<p><strong>线程概念和多线程模型</strong></p>
+<ul>
+<li>线程的引入<br><img src="images/2017-08-12/QQ截图20170812133149.png" alt=""></li>
+<li>线程的属性<ul>
+<li>轻型实体（容易创建和撤销）</li>
+<li><strong>独立调度和分派的基本单位</strong></li>
+<li>可并发执行</li>
+<li>共享进程资源</li>
+<li>适应硬件的发展</li>
+</ul>
+</li>
+<li>线程表<br><img src="images/2017-08-12/QQ截图20170812150537.png" alt=""></li>
+<li><p>线程实体</p>
+<blockquote>
+<p>线程是进程中的一个实体，它是操作系统进行<strong>独立调度和分派的基本单位</strong>，但<strong>不是资源分配的基本单位</strong>。<br><img src="images/2017-08-12/QQ截图20170812150553.png" alt=""></p>
+</blockquote>
+</li>
+<li><p>线程实现方式：线程在具体实现时形式上又分为内核线程和用户线程。</p>
+</li>
+<li>内核线程<br><img src="images/2017-08-12/QQ截图20170812134748.png" alt=""></li>
+<li>用户线程<br><img src="images/2017-08-12/QQ截图20170812134857.png" alt=""></li>
+<li>多线程模型<br><img src="images/2017-08-12/QQ截图20170812134955.png" alt=""><br>注：轻量级进程——只含有一个线程的进程</li>
+</ul>
+<h2 id="处理机调度"><a href="#处理机调度" class="headerlink" title="处理机调度"></a>处理机调度</h2><h3 id="调度的基本概念"><a href="#调度的基本概念" class="headerlink" title="调度的基本概念"></a>调度的基本概念</h3><p><strong>调度的基本概念</strong></p>
+<blockquote>
+<p>进程的数量多于处理机的个数，竞争处理机。分配处理机的任务由进程调度<br>程序完成，由进程分派程序具体实行。用一定的算法，动态地把处理机分配给进程，使之能公平、合理和高效地运行。调度是分层次的。—个作业从提交开始，直到完成，往往要经历多级调度。</p>
+</blockquote>
+<p><img src="images/2017-08-12/QQ截图20170812135957.png" alt=""></p>
+<p><strong>作业调度</strong></p>
+<blockquote>
+<p>作业调度又称宏观调度或高级调度。其主要任务是按一定的原则，对外存储器中处于后备状态的作业进行选择。</p>
+</blockquote>
+<p><strong>进程调度</strong></p>
+<blockquote>
+<p>进程调度又称微观调度，是指决定就绪队列中哪个进程将获得处理机，并实<br>际将处理机分配给该进程的操作。</p>
+<p>进程调度是操作系统中最基本的调度。调度过程体现了现代操作系统将策略与机制分离的设计思想，调度考虑的是选择进程的算法，并将算法选择提供给用户使用；而<strong>分派程序</strong>是机制，它是直接进行处理机切换的操作者。</p>
+</blockquote>
+<p><del><strong>交换调度：</strong>交换调度又称中级调度。</del>（内存中研究的）</p>
+<p><img src="images/2017-08-12/QQ截图20170812140517.png" alt=""></p>
+<p><strong>调度目标和准则</strong></p>
+<ul>
+<li>公平性：确保每个进程都能公平地获得处理机的机会</li>
+<li>高效性：尽可能使处理机的利用率达到 100%</li>
+<li>响应时间：对交互式系统要求有符合用户习惯的响应时间</li>
+<li>吞吐量：单位时间内批处理系统所能完成的工作量</li>
+</ul>
+<h3 id="调度的时机、切换和过程"><a href="#调度的时机、切换和过程" class="headerlink" title="调度的时机、切换和过程"></a>调度的时机、切换和过程</h3><p><strong>1. 引起进程调度的典型事件：</strong></p>
+<ul>
+<li>正在运行的进程发生某事件而不能再继续运行</li>
+<li>运行中的进程因提出输入/输出请求而暂停运行</li>
+<li>在进程通信或同步过程中运行了某种原语操作，如 P 操作等</li>
+<li>在可抢先式调度中，有一个比当前进程优先级更高的进程进入就绪队列</li>
+<li>在时间片轮转算法中，时间片用完。</li>
+</ul>
+<p><strong>2. 分派程序（dispatcher）：</strong></p>
+<ul>
+<li>分派程序完成进程的切换，是实际操作者。</li>
+<li>上下文切换</li>
+</ul>
+<h3 id="调度的基本准则"><a href="#调度的基本准则" class="headerlink" title="调度的基本准则"></a>调度的基本准则</h3><p><strong>调度的基本准则包括：</strong>处理机利用率、吞吐量、周转时间<br><strong>调度的基本名词解释：</strong>后备时间、等待时间、响应时间、带权周转时间</p>
+<h3 id="调度方式"><a href="#调度方式" class="headerlink" title="调度方式"></a>调度方式</h3><ul>
+<li>不可抢先方式</li>
+<li>可抢先方式</li>
+</ul>
+<h3 id="典型调度算法"><a href="#典型调度算法" class="headerlink" title="典型调度算法"></a>典型调度算法</h3><ul>
+<li>先来先服务（FCFS）</li>
+<li>短作业或短进（线）程优先（SJF&amp;SPF）</li>
+<li>时间片轮转调度算法（RR）</li>
+<li>高优先级优先调度算法</li>
+<li>高响应比优先调度（HRRN）算法<blockquote>
+<p>响应比 Rp =（等待时间+预计运行时间）/ 预计运行时间 = 响应时间 / 预计运行时间</p>
+</blockquote>
+</li>
+<li>多级反馈队列调度算法</li>
+</ul>
+<h2 id="同步与互斥"><a href="#同步与互斥" class="headerlink" title="同步与互斥"></a>同步与互斥</h2><h3 id="同步与互斥的基本概念"><a href="#同步与互斥的基本概念" class="headerlink" title="同步与互斥的基本概念"></a>同步与互斥的基本概念</h3><p><strong>基本概念：</strong></p>
+<ul>
+<li>间接相互制约：源于资源共享-<strong>互斥</strong>。</li>
+<li>直接相互制约：源于进程合作-<strong>同步</strong>。</li>
+<li><strong>临界资源</strong>：一次只允许一个进程使用的资源称为临界资源</li>
+<li><strong>临界区</strong>：在每个进程中，访问临界资源的那段程序称为临界区</li>
+</ul>
+<p><strong>同步与互斥机制应遵循的准则：</strong></p>
+<ul>
+<li>空闲则进</li>
+<li>遇忙等待</li>
+<li>有限等待</li>
+<li>让权等待</li>
+</ul>
+<h3 id="实现临界区互斥的基本方法"><a href="#实现临界区互斥的基本方法" class="headerlink" title="实现临界区互斥的基本方法"></a>实现临界区互斥的基本方法</h3><ul>
+<li><strong>软件实现方法</strong></li>
+<li><strong>硬件实现方法</strong></li>
+</ul>
+<h3 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h3><p>信号量：信号量的值是可变的，由初始化和 P、V 操作来改变。</p>
+<blockquote>
+<p>P（S）操作的定义：<br>–S.Q； //表示申请一个资源<br>if (S.Q &lt; 0) //若没有空闲资源<br>{<br> 调用进程进入等待队列 S.Q；<br> 阻塞调用进程；<br>}<br>V（S）操作的定义：<br>++S.Q； //表示释放一个资源<br>if (S.Q &lt;= 0) //若有进程处于阻塞状态<br>{<br> 从等待队列 S.Q 中取出一个进程 P；<br> 进程 P 进入就绪队列；}</p>
+<p>P、V 操作实现互斥模型：<br>type def semaphore；<br>semaphore S=1；<br>PROC1 PROC2<br>P（S）； P（S）；<br> critical section critical section<br>V（S）； V（S）；<br> remainder section remainder section<br>P、V 操作实现同步模型：<br>type def semaphore；<br>semaphore S=0；<br>PROC1 PROC2<br> P（S）；<br> produce data； consume data；<br>V（S）；<br> remainder section remainder section</p>
+</blockquote>
+<h3 id="管程"><a href="#管程" class="headerlink" title="管程"></a>管程</h3><p><strong>管程：</strong>一个管程定义了一个数据结构和能为并发进程所运行的一组操作，这组操作能同步进程和改变管程中的数据。</p>
+<h3 id="经典的同步问题"><a href="#经典的同步问题" class="headerlink" title="经典的同步问题"></a>经典的同步问题</h3><ul>
+<li><strong>生产者-消费者问题</strong></li>
+<li><strong>读者-写者问题</strong></li>
+<li><strong>哲学家进餐问题</strong></li>
+</ul>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><h3 id="死锁的概念"><a href="#死锁的概念" class="headerlink" title="死锁的概念"></a>死锁的概念</h3><p><strong>死锁：</strong></p>
+<blockquote>
+<p>系统中两个或两个以上的进程无限期地相互等待永远不会发生的条件，系统处于一种停滞状态，这种情况称为死锁。</p>
+</blockquote>
+<p><strong>死锁产生的原因：</strong></p>
+<ul>
+<li>进程推进顺序不当</li>
+<li>对互斥资源的分配不当</li>
+</ul>
+<p><strong>产生死锁的四个必要条件：</strong></p>
+<ul>
+<li>互斥条件：任一时刻只允许一个进程使用资源。</li>
+<li>非剥夺条件：进程已经占用的资源，不会被强制剥夺。</li>
+<li>占用并请求条件：进程占有部分资源，并申请更多的资源，且不会主动释放已经占有的资源。</li>
+<li>循环等待：请求资源的进程形成了循环。</li>
+</ul>
+<p><strong>死锁的处理策略：</strong></p>
+<ul>
+<li>忽略死锁。</li>
+<li>锁的检测与恢复。</li>
+<li>死锁的<strong>避免</strong>。</li>
+<li>死锁的<strong>预防</strong>。</li>
+</ul>
+<p><strong>死锁预防：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">条件</th>
+<th style="text-align:center">方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">互斥</td>
+<td style="text-align:center">虚拟设备假脱机</td>
+</tr>
+<tr>
+<td style="text-align:center">占有并等待</td>
+<td style="text-align:center">一次分配全部资源</td>
+</tr>
+<tr>
+<td style="text-align:center">非剥夺</td>
+<td style="text-align:center">主动放弃</td>
+</tr>
+<tr>
+<td style="text-align:center">循环等待</td>
+<td style="text-align:center">有序分配资源</td>
+</tr>
+</tbody>
+</table>
+<p><strong>死锁避免：</strong></p>
+<ul>
+<li>安全状态</li>
+<li>不安全状态</li>
+</ul>
+<p><strong>银行家算法：</strong>（实际系统中难以实现，很难事先声明需要多少资源）</p>
+<blockquote>
+<p>银行家算法问题描述是：一个银行家把他的固定资金借给若干顾客，使这些顾客能满足对资金的要求又能完成其交易，也使银行家可以收回全部的现金。只要不出现一个顾客借走所有资金后还不够、还需要借贷。则银行家的资金应是安全的，银行家需要一个算法保证借出去的资金在有限时间内可收回。</p>
+</blockquote>
+<h3 id="死锁的检测与解除"><a href="#死锁的检测与解除" class="headerlink" title="死锁的检测与解除"></a>死锁的检测与解除</h3><p><strong>死锁的检测与解除：</strong></p>
+<ul>
+<li>资源分配图算法</li>
+<li>资源矩阵算法</li>
+</ul>
+<p><strong>死锁的解除：</strong></p>
+<ul>
+<li>资源剥夺法</li>
+<li>进程撤销法</li>
+<li>进程回退法</li>
+<li>重新启动系统</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/08/11/【笔记】一、操作系统概述/">
+                    【笔记】一、操作系统概述
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程与线程"><span class="toc-number">1.</span> <span class="toc-text">进程与线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#进程概念"><span class="toc-number">1.1.</span> <span class="toc-text">进程概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程和程序的区别与联系"><span class="toc-number">1.2.</span> <span class="toc-text">进程和程序的区别与联系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程概念-1"><span class="toc-number">1.3.</span> <span class="toc-text">进程概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程的状态与转换"><span class="toc-number">1.4.</span> <span class="toc-text">进程的状态与转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程控制"><span class="toc-number">1.5.</span> <span class="toc-text">进程控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程组织"><span class="toc-number">1.6.</span> <span class="toc-text">进程组织</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理机调度"><span class="toc-number">2.</span> <span class="toc-text">处理机调度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#调度的基本概念"><span class="toc-number">2.1.</span> <span class="toc-text">调度的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调度的时机、切换和过程"><span class="toc-number">2.2.</span> <span class="toc-text">调度的时机、切换和过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调度的基本准则"><span class="toc-number">2.3.</span> <span class="toc-text">调度的基本准则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调度方式"><span class="toc-number">2.4.</span> <span class="toc-text">调度方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#典型调度算法"><span class="toc-number">2.5.</span> <span class="toc-text">典型调度算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步与互斥"><span class="toc-number">3.</span> <span class="toc-text">同步与互斥</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#同步与互斥的基本概念"><span class="toc-number">3.1.</span> <span class="toc-text">同步与互斥的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现临界区互斥的基本方法"><span class="toc-number">3.2.</span> <span class="toc-text">实现临界区互斥的基本方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信号量"><span class="toc-number">3.3.</span> <span class="toc-text">信号量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管程"><span class="toc-number">3.4.</span> <span class="toc-text">管程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经典的同步问题"><span class="toc-number">3.5.</span> <span class="toc-text">经典的同步问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#死锁"><span class="toc-number">4.</span> <span class="toc-text">死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#死锁的概念"><span class="toc-number">4.1.</span> <span class="toc-text">死锁的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#死锁的检测与解除"><span class="toc-number">4.2.</span> <span class="toc-text">死锁的检测与解除</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/08/11/【笔记】一、操作系统概述/" title="下一篇: 【笔记】一、操作系统概述">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/08/12/【笔记】二、进程与线程/">【笔记】二、进程与线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/【笔记】一、操作系统概述/">【笔记】一、操作系统概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/Python（一）基础篇之【数据类型】/">Python（一）基础篇之【数据类型】</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017 alpaca-balabala
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        $("a[target=_blank]").removeAttr("target");
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
