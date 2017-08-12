@@ -24,7 +24,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="进程概念-1"><a href="#进程概念-1" class="headerlink" title="进程概念"></a>进程概念</h3><p>动态性、并发性、独立性、异步性（提高利用率）</p>
+<h3 id="进程特征"><a href="#进程特征" class="headerlink" title="进程特征"></a>进程特征</h3><p>动态性、并发性、独立性、异步性（提高利用率）</p>
 <h3 id="进程的状态与转换"><a href="#进程的状态与转换" class="headerlink" title="进程的状态与转换"></a>进程的状态与转换</h3><p><strong>状态：</strong></p>
 <ul>
 <li>运行状态（Running）</li>
