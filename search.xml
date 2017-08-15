@@ -3,6 +3,201 @@
   
     
     <entry>
+      <title><![CDATA[【笔记】Python基础篇（二）字符串和字符编码]]></title>
+      <url>/2017/08/15/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91Python%E5%9F%BA%E7%A1%80%E7%AF%87%EF%BC%88%E4%BA%8C%EF%BC%89%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/</url>
+      <content type="html"><![CDATA[<h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2><p><img src="http://upload-images.jianshu.io/upload_images/4101271-caf670be7370fa9e.png?imageMogr2/auto-orient/strip%7CimageView2/2" alt=""></p>
+<h2 id="编码问题"><a href="#编码问题" class="headerlink" title="编码问题"></a>编码问题</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>1 bit（位）： 0 或 1 两种可能</li>
+<li>1 byte（字节）： 8 bit = 2<sup>8</sup>种可能</li>
+<li>ASCII：1个字节（8位）；英文字符 + 常见符号</li>
+<li>Unicode：2个字节（16位）；字符集（万国码）<ol>
+<li>变长编码方式UTF-8：英文1个字节；中文3个字节；生僻字符4-6个字节</li>
+<li>变长编码方式UTF-16：统一2个字节</li>
+</ol>
+</li>
+</ul>
+<h3 id="什么是编码？"><a href="#什么是编码？" class="headerlink" title="什么是编码？"></a>什么是编码？</h3><p>基本概念很简单。首先，我们从一段信息即消息说起，消息以人类可以理解、易懂的表示存在。我打算将这种表示称为“明文”（plain text）。对于说英语的人，纸张上打印的或屏幕上显示的英文单词都算作明文。</p>
+<p>其次，我们需要能将明文表示的消息转成另外某种表示，我们还需要能将编码文本转回成明文。从明文到编码文本的转换称为“编码”，从编码文本又转回成明文则为“解码”。</p>
+<pre><code>编码问题是个大问题，如果不彻底解决，它就会像隐藏在丛林中的小蛇，时不时地咬你一口。
+    那么到底什么是编码呢？
+
+    //ASCII
+
+    记住一句话：计算机中的所有数据，不论是文字、图片、视频、还是音频文件，本质上最终都是按照类似 01010101 的二进制存储的。
+    再说简单点，计算机只懂二进制数字！
+    所以，目的明确了：如何将我们能识别的符号唯一的与一组二进制数字对应上？于是美利坚的同志想到通过一个电平的高低状态来代指0或1，
+    八个电平做为一组就可以表示出
+    256种不同状态，每种状态就唯一对应一个字符，比如A---&gt;00010001,而英文只有26个字符，算上一些特殊字符和数字，128个状态也够
+    用了；每个电平称为一个比特为，约定8个比特位构成一个字节，这样计算机就可以用127个不同字节来存储英语的文字了。这就是ASCII编码。
+
+    扩展ANSI编码
+    刚才说了，最开始，一个字节有八位，但是最高位没用上，默认为0；后来为了计算机也可以表示拉丁文，就将最后一位也用上了，
+    从128到255的字符集对应拉丁文啦。至此，一个字节就用满了！
+
+    //GB2312
+
+    计算机漂洋过海来到中国后，问题来了，计算机不认识中文，当然也没法显示中文；而且一个字节所有状态都被占满了，万恶的帝国主义亡
+    我之心不死啊！我党也是棒，自力更生，自己重写一张表，直接生猛地将扩展的第八位对应拉丁文全部删掉，规定一个小于127的字符的意
+    义与原来相同，但两个大于127的字符连在一起时，就表示一个汉字，前面的一个字节（他称之为高字节）从0xA1用到0xF7，后面一个字节
+   （低字节）从0xA1到0xFE，这样我们就可以组合出大约7000多个简体汉字了；这种汉字方案叫做 “GB2312”。GB2312 是对 ASCII 的中文扩展。
+
+    //GBK 和 GB18030编码
+
+    但是汉字太多了，GB2312也不够用，于是规定：只要第一个字节是大于127就固定表示这是一个汉字的开始，不管后面跟的是不是扩展字符集里的
+    内容。结果扩展之后的编码方案被称为 GBK 标准，GBK 包括了 GB2312 的所有内容，同时又增加了近20000个新的汉字（包括繁体字）和符号。
+
+    //UNICODE编码：
+
+    很多其它国家都搞出自己的编码标准，彼此间却相互不支持。这就带来了很多问题。于是，国际标谁化组织为了统一编码：提出了标准编码准
+    则：UNICODE 。
+    UNICODE是用两个字节来表示为一个字符，它总共可以组合出65535不同的字符，这足以覆盖世界上所有符号（包括甲骨文）
+
+    //utf8:
+
+    unicode都一统天下了，为什么还要有一个utf8的编码呢？
+    大家想，对于英文世界的人们来讲，一个字节完全够了，比如要存储A,本来00010001就可以了，现在吃上了unicode的大锅饭，
+    得用两个字节：00000000 00010001才行，浪费太严重！
+    基于此，美利坚的科学家们提出了天才的想法：utf8.
+    UTF-8（8-bit Unicode Transformation Format）是一种针对Unicode的可变长度字符编码，它可以使用1~4个字节表示一个符号，根据
+    不同的符号而变化字节长度，当字符在ASCII码的范围时，就用一个字节表示，所以是兼容ASCII编码的。
+
+    这样显著的好处是，虽然在我们内存中的数据都是unicode，但当数据要保存到磁盘或者用于网络传输时，直接使用unicode就远不如utf8省空间啦！
+    这也是为什么utf8是我们的推荐编码方式。
+</code></pre><p><strong>Unicode与utf8的关系：</strong></p>
+<blockquote>
+<p>一言以蔽之：Unicode是内存编码表示方案（是规范），而UTF是如何保存和传输Unicode的方案（是实现）这也是UTF与Unicode的区别。使用utf8：一切都是为了节省你的硬盘和流量。</p>
+</blockquote>
+<h3 id="Python2的字符编码"><a href="#Python2的字符编码" class="headerlink" title="Python2的字符编码"></a>Python2的字符编码</h3><p>在py2中，有两种字符串类型：str类型和unicode类型；注意，这仅仅是两个名字，python定义的两个名字，关键是这两种数据类型在程序运行时存在内存地址的是什么？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>s1 = <span class="string">'邵'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(type(s1))</div><div class="line">&lt;type <span class="string">'str'</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(repr(s1))</div><div class="line"><span class="string">'\xe9\x82\xb5'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>s2 = <span class="string">u'邵'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(type(s2))</div><div class="line">&lt;type <span class="string">'unicode'</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(repr(s2))</div><div class="line"><span class="string">u'\u90b5'</span></div></pre></td></tr></table></figure>
+<p>内置函数repr可以帮我们在这里显示存储内容。原来，str和unicode分别存的是字节数据和unicode数据；那么两种数据之间是什么关系呢？如何转换呢?这里就涉及到编码(encode)和解码(decode)了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>s1 = <span class="string">u'邵'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> repr(s1)</div><div class="line"><span class="string">u'\u90b5'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>b = s1.encode(<span class="string">'utf8'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> type(b)</div><div class="line">&lt;type <span class="string">'str'</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> repr(b)</div><div class="line"><span class="string">'\xe9\x82\xb5'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>s2 = <span class="string">'邵奇'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>u = s2.decode(<span class="string">'utf8'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> u</div><div class="line">邵奇</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> type(u)</div><div class="line">&lt;type <span class="string">'unicode'</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> repr(u)</div><div class="line"><span class="string">u'\u90b5\u5947'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>u2 = s2.decode(<span class="string">'gbk'</span>)</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">UnicodeDecodeError: <span class="string">'gbk'</span> codec can<span class="string">'t decode bytes in position 4-5: illegal multibyte sequence</span></div></pre></td></tr></table></figure></p>
+<p>无论是utf8还是gbk都只是一种编码规则，一种把unicode数据编码成字节数据的规则，所以utf8编码的字节一定要用utf8的规则解码，否则就会出现乱码或者报错的情况。</p>
+<p><strong>Python2编码的特色：</strong><br>Python 2 悄悄掩盖掉了 byte 到 unicode 的转换，只要数据全部是 ASCII 的话，所有的转换都是正确的，一旦一个非 ASCII 字符偷偷进入你的程序，那么默认的解码将会失效，从而造成 UnicodeDecodeError 的错误。py2编码让程序在处理 ASCII 的时候更加简单。你复出的代价就是在处理非 ASCII 的时候将会失败。</p>
+<h3 id="Python3的字符编码"><a href="#Python3的字符编码" class="headerlink" title="Python3的字符编码"></a>Python3的字符编码</h3><p>py3也有两种数据类型：str和bytes；  str类型存unicode数据，bytse类型存bytes数据，与py2比只是换了一下名字而已。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> json</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>s = <span class="string">'邵奇'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(type(s))</div><div class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">str</span>'&gt;</span></div><div class="line"><span class="class">&gt;&gt;&gt; <span class="title">print</span><span class="params">(json.dumps<span class="params">(s)</span>)</span></span></div><div class="line"><span class="class">"\<span class="title">u90b5</span>\<span class="title">u5947</span>"</span></div><div class="line">&gt;&gt;&gt; b = s.encode('utf8')</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(type(b))</div><div class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">bytes</span>'&gt;</span></div><div class="line"><span class="class">&gt;&gt;&gt; <span class="title">print</span><span class="params">(b)</span></span></div><div class="line"><span class="class"><span class="title">b</span>'\<span class="title">xe9</span>\<span class="title">x82</span>\<span class="title">xb5</span>\<span class="title">xe5</span>\<span class="title">xa5</span>\<span class="title">x87</span>'</span></div><div class="line">&gt;&gt;&gt; u = b.decode('utf8')</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(type(u))</div><div class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">str</span>'&gt;</span></div><div class="line"><span class="class">&gt;&gt;&gt; <span class="title">print</span><span class="params">(u)</span></span></div><div class="line"><span class="class">邵奇</span></div></pre></td></tr></table></figure>
+<p><strong>Python3的编码哲学：</strong><br>Python 3最重要的新特性大概要算是对文本和二进制数据作了更为清晰的区分，不再会对bytes字节串进行自动解码。文本总是Unicode，由str类型表示，二进制数据则由bytes类型表示。Python 3不会以任意隐式的方式混用str和bytes，正是这使得两者的区分特别清晰。你不能拼接字符串和字节包，也无法在字节包里搜索字符串（反之亦然），也不能将字符串传入参数为字节包的函数（反之亦然）。</p>
+<p><em>注意：无论py2，还是py3,与明文直接对应的就是unicode数据，打印unicode数据就会显示相应的明文(包括英文和中文)</em></p>
+<h3 id="文件从磁盘到内存的编码"><a href="#文件从磁盘到内存的编码" class="headerlink" title="文件从磁盘到内存的编码"></a>文件从磁盘到内存的编码</h3><p>说到这，才来到我们的重点！</p>
+<p>抛开执行执行程序，请问大家，文本编辑器大家都是用过吧，如果不懂是什么，那么word总用过吧，ok，当我们在word上编辑文字的时候，不管是中文还是英文，计算机都是不认识的，那么在保存之前数据是通过什么形式存在内存的呢？yes，就是unicode数据，为什么要存unicode数据，这是因为它的名字最屌：万国码！解释起来就是无论英文，中文，日文，拉丁文，世界上的任何字符它都有唯一编码对应，所以兼容性是最好的。</p>
+<p>好，那当我们保存了存到磁盘上的数据又是什么呢？</p>
+<p>答案是通过某种编码方式编码的bytes字节串。比如utf8-－－一种可变长编码，很好的节省了空间；当然还有历史产物的gbk编码等等。于是，在我们的文本编辑器软件都有默认的保存文件的编码方式，比如utf8，比如gbk。当我们点击保存的时候，这些编辑软件已经”默默地”帮我们做了编码工作。</p>
+<p>那当我们再打开这个文件时，软件又默默地给我们做了解码的工作，将数据再解码成unicode,然后就可以呈现明文给用户了！所以，unicode是离用户更近的数据，bytes是离计算机更近的数据。</p>
+<p>说了这么多，和我们程序执行有什么关系呢？</p>
+<p>先明确一个概念：py解释器本身就是一个软件，一个类似于文本编辑器一样的软件！</p>
+<p>现在让我们一起还原一个py文件从创建到执行的编码过程：</p>
+<p>打开pycharm，创建hello.py文件，写入<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s = <span class="string">'帅得一逼'</span></div><div class="line">print(s)</div></pre></td></tr></table></figure></p>
+<p>当我们保存的的时候，hello.py文件就以pycharm默认的编码方式保存到了磁盘；关闭文件后再打开，pycharm就再以默认的编码方式对该文件打开后读到的内容进行解码，转成unicode到内存我们就看到了我们的明文；</p>
+<p>而如果我们点击运行按钮或者在命令行运行该文件时，py解释器这个软件就会被调用，打开文件，然后解码存在磁盘上的bytes数据成unicode数据，这个过程和编辑器是一样的，不同的是解释器会再将这些unicode数据翻译成C代码再转成二进制的数据流，最后通过控制操作系统调用cpu来执行这些二进制数据，整个过程才算结束。</p>
+<p>那么问题来了，我们的文本编辑器有自己默认的编码解码方式，我们的解释器有吗？</p>
+<p>当然有啦，py2默认ASCII码，py3默认的utf8，可以通过如下方式查询</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line">print(sys.getdefaultencoding())</div></pre></td></tr></table></figure>
+<p>是的，这就是因为如果py2解释器去执行一个utf8编码的文件，就会以默认地ASCII去解码utf8，一旦程序中有中文，自然就解码错误了，所以我们在文件开头位置声明　<code>#coding:utf8</code>，其实就是告诉解释器，你不要以默认的编码方式去解码这个文件，而是以utf8来解码。而py3的解释器因为默认utf8编码，所以就方便很多了。</p>
+<p><em>注意：我们上面讲的string编码是在cpu执行程序时的存储状态，是另外一个过程，不要混淆！</em></p>
+<h3 id="常见的编码问题"><a href="#常见的编码问题" class="headerlink" title="常见的编码问题"></a>常见的编码问题</h3><p><strong>1 cmd下的乱码问题</strong></p>
+<p>文件保存时的编码也为utf8。</p>
+<p>思考：为什么在IDE下用2或3执行都没问题，在cmd.exe下3正确，2乱码呢？</p>
+<p>我们在win下的终端即cmd.exe去执行，大家注意，cmd.exe本身也一个软件；当我们python2 hello.py时，python2解释器(默认ASCII编码)去按声明的utf8编码文件，而文件又是utf8保存的，所以没问题；问题出在当我们print’苑昊’时，解释器这边正常执行，也不会报错，只是print的内容会传递给cmd.exe用来显示，而在py2里这个内容就是utf8编码的字节数据，可这个软件默认的编码解码方式是GBK，所以cmd.exe用GBK的解码方式去解码utf8自然会乱码。</p>
+<p>py3正确的原因是传递给cmd的是unicode数据，cmd.exe可以识别内容，所以显示没问题。</p>
+<p>明白原理了，修改就有很多方式，比如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(<span class="string">u'你好'</span>)</div></pre></td></tr></table></figure></p>
+<p>改成这样后，cmd下用2也不会有问题了。</p>
+<p><strong>2 open()中的编码问题</strong><br>创建一个hello文本，保存成utf8：</p>
+<pre><code>你好，大傻逼！
+</code></pre><p>同目录下创建一个index.py同目录下创建一个index.py</p>
+<pre><code>f=open(&apos;hello&apos;)
+print(f.read())
+</code></pre><p>为什么 在linux下，结果正常：“你好，大傻逼！”，在win下，乱码（py3解释器）？</p>
+<p>因为你的win的操作系统安装时是默认的gbk编码，而linux操作系统默认的是utf8编码；</p>
+<p>当执行open函数时，调用的是操作系统打开文件，操作系统用默认的gbk编码去解码utf8的文件，自然乱码。</p>
+<p>解决办法：</p>
+<pre><code>f=open(&apos;hello&apos;,encoding=&apos;utf8&apos;)
+print(f.read())
+</code></pre><p>如果你的文件保存的是gbk编码，在win 下就不用指定encoding了。</p>
+<p>另外，如果你的win上不需要指定给操作系统encoding=’utf8’，那就是你安装时就是默认的utf8编码或者已经通过命令修改成了utf8编码。</p>
+<p><em>注意：open这个函数在py2里和py3中是不同的，py3中有了一个encoding＝None参数。</em></p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><h3 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h3><ul>
+<li>标准类型比较操作符：按照ASCII值比较大小</li>
+<li>cmp函数（python3中取消）,按照ASCII值比较大小</li>
+</ul>
+<p>Python 3.X 的版本中已经没有 cmp 函数，如果你需要实现比较功能，需要引入 operator 模块，适合任何对象，包含的方法有：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">operator.lt(a, b)    <span class="comment">#  小于</span></div><div class="line">operator.le(a, b)    <span class="comment">#  小于等于</span></div><div class="line">operator.eq(a, b)    <span class="comment">#  等于</span></div><div class="line">operator.ne(a, b)    <span class="comment">#  不等于</span></div><div class="line">operator.ge(a, b)    <span class="comment">#  大于等于</span></div><div class="line">operator.gt(a, b)    <span class="comment">#  大于</span></div><div class="line">operator.__lt__(a, b)</div><div class="line">operator.__le__(a, b)</div><div class="line">operator.__eq__(a, b)</div><div class="line">operator.__ne__(a, b)</div><div class="line">operator.__ge__(a, b)</div><div class="line">operator.__gt__(a, b)</div></pre></td></tr></table></figure>
+<h3 id="BIF（Built-in-Function）"><a href="#BIF（Built-in-Function）" class="headerlink" title="BIF（Built-in Function）"></a>BIF（Built-in Function）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dir(str)    <span class="comment">#  查看str所有BIF</span></div></pre></td></tr></table></figure>
+<p><strong>更改显示方式：</strong></p>
+<ul>
+<li>大小写</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">capitalize()    <span class="comment"># 首字母大写，其余小写</span></div><div class="line">title()         <span class="comment"># 每个单词首字母大写</span></div><div class="line">upper()         <span class="comment"># 全大写</span></div><div class="line">lower()         <span class="comment"># 全小写</span></div><div class="line">swapcase()      <span class="comment"># 反转大小写</span></div></pre></td></tr></table></figure>
+<ul>
+<li>宽度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">center(width)    <span class="comment"># 居中</span></div><div class="line">ljust(width)     <span class="comment"># 左对齐</span></div><div class="line">rjust(width)     <span class="comment"># 右对齐，以上空格填充至width，也可传入第二个参数，为填充的内容</span></div><div class="line">zfill(width)     <span class="comment"># 前面用0填充至width长度</span></div></pre></td></tr></table></figure>
+<ul>
+<li>编码</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">encode(<span class="string">"utf-8"</span>)    <span class="comment"># 编码</span></div><div class="line">decode(<span class="string">"utf-8"</span>)    <span class="comment"># 解码</span></div></pre></td></tr></table></figure>
+<p><strong>检查：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">count(str,beg,end)  </div><div class="line"><span class="comment"># 统计str出现次数，beg,end可选参数指定范围</span></div><div class="line">find(str,beg,end)/rfind(str,beg,end)  </div><div class="line"><span class="comment"># 判断是否有str,如果有返回索引值，否则返回-1</span></div><div class="line">index(str,beg,end)/rindex(strbeg,end)  </div><div class="line"><span class="comment"># 跟find一样，只不过找不到str会报错</span></div><div class="line">endswith(str,beg,end)/startswith(str,beg,end)  </div><div class="line"><span class="comment"># 检查是否以str开头或结尾</span></div><div class="line">isalnum()  </div><div class="line"><span class="comment"># 如果string至少有一个字符并且所有字符都是字母或数字则返回True,否则返回False</span></div><div class="line">isalpha()</div><div class="line"><span class="comment"># 如果string至少有一个字符并且所有字符都是字母则返回True,否则返回False</span></div><div class="line">isdecimal()</div><div class="line"><span class="comment"># 如果string只包含十进制数字则返回True否则返回False.</span></div><div class="line">isdigit()</div><div class="line"><span class="comment"># 如果string只包含数字则返回True否则返回False.</span></div><div class="line">isnumeric()</div><div class="line"><span class="comment"># 如果string中只包含数字字符，则返回True，否则返回False</span></div><div class="line">islower()</div><div class="line"><span class="comment"># 如果string中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回True，否则返回False</span></div><div class="line">isupper()</div><div class="line"><span class="comment"># 如果string中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回True，否则返回False</span></div><div class="line">istitle()</div><div class="line"><span class="comment"># 如果string是所有单词都是以大写开始，其余字母均为小写，则返回True，否则返回False</span></div><div class="line">isspace()</div><div class="line"><span class="comment"># 如果string中只包含空格，则返回True，否则返回False.</span></div></pre></td></tr></table></figure>
+<p><em><code>is数字</code>系列详解：</em></p>
+<ul>
+<li>isdigt:bytes,unicode</li>
+<li>isdecimal:uncicode</li>
+<li>isnumberic:unicode,中文数字,罗马数字</li>
+<li>三者不能判断浮点数</li>
+<li>总结：最常用的是<code>isdigit</code>,可以判断<code>bytes</code>和<code>unicode</code>类型,这也是最常见的数字应用场景。如果要判断中文数字或罗马数字,则需要用到<code>isnumeric</code></li>
+</ul>
+<p><strong>修改：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">expandtabs()</div><div class="line"><span class="comment"># 把字符串string中的tab符号转为空格，tab符号默认的空格数是8。</span></div><div class="line">replace(str1, str2,num)</div><div class="line"><span class="comment"># 把string中的str1替换成str2,如果num 指定，则替换不超过string.count(str1)次.</span></div><div class="line">strip()</div><div class="line"><span class="comment"># 删除string字符串左右两边的空格</span></div><div class="line">lstrip()</div><div class="line"><span class="comment"># 截掉string左边的空格</span></div><div class="line">rstrip()</div><div class="line"><span class="comment"># 删除string字符串末尾的空格.</span></div><div class="line">split(str,num)</div><div class="line"><span class="comment"># 以str为分隔符切片string，如果num有指定值，则仅分隔num个子字符串</span></div><div class="line">splitlines([keepends])</div><div class="line"><span class="comment"># 按照行('\r', '\r\n', \n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。</span></div><div class="line">partition(str)</div><div class="line"><span class="comment"># 有点像 find()和split()的结合体,从str出现的第一个位置起,把字符串string分成一个3元素的元组(string_pre_str,str,string_post_str),如果string中不包含str 则string_pre_str == string</span></div><div class="line">rpartition(str)</div><div class="line"><span class="comment"># 类似于 partition()函数,不过是从右边开始查找.</span></div><div class="line">join(seq)</div><div class="line"><span class="comment"># 以string作为分隔符，将seq中所有的元素(的字符串表示)合并为一个新的字符串,seq为可迭代的，必须都是字符串</span></div></pre></td></tr></table></figure>
+<p><strong>其他：</strong></p>
+<ul>
+<li>maketrans() 方法用于创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。</li>
+<li>translate() 方法根据参数table给出的表(包含 256 个字符)转换字符串的字符, 要过滤掉的字符放到 del 参数中。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># translate使用实例</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> string <span class="keyword">import</span> maketrans   <span class="comment"># 引用 maketrans 函数。</span></div><div class="line"></div><div class="line">intab = <span class="string">"aeiou"</span></div><div class="line">outtab = <span class="string">"12345"</span></div><div class="line">trantab = maketrans(intab, outtab)</div><div class="line"></div><div class="line">str = <span class="string">"this is string example....wow!!!"</span>;</div><div class="line"><span class="keyword">print</span> str.translate(trantab);</div></pre></td></tr></table></figure>
+<p>输出结果为：th3s 3s str3ng 2x1mpl2….w4w!!!</p>
+<h3 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h3><p>Python 支持格式化字符串的输出 。尽管这样可能会用到非常复杂的表达式，但最基本的用法是将一个值插入到一个有字符串格式符 %s 的字符串中。</p>
+<p><strong>格式化操作符%</strong></p>
+<p>格式：<code>%[(name)][flags][width].[precision]typecode</code><br>内涵：</p>
+<pre><code>(name)：可选，用于选择指定的key
+flags：可选，可供选择的值有:
+    + ：右对齐；正数前加正好，负数前加负号；
+    - ：左对齐；正数前无符号，负数前加负号；
+    空格 ：右对齐；正数前加空格，负数前加负号；
+    0 ：右对齐；正数前无符号，负数前加负号；用0填充空白处
+width：可选，占有宽度
+.precision：可选，小数点后保留的位数
+typecode：必选：
+    s，获取传入对象的__str__方法的返回值，并将其格式化到指定位置
+    r，获取传入对象的__repr__方法的返回值，并将其格式化到指定位置
+    c，整数：将数字转换成其unicode对应的值，10进制范围为 0 &lt;= i &lt;= 1114111（py27则只支持0-255）；字符：将字符添加到指定位置
+    o，将整数转换成 八  进制表示，并将其格式化到指定位置
+    x，将整数转换成十六进制表示，并将其格式化到指定位置
+    d，将整数、浮点数转换成 十 进制表示，并将其格式化到指定位置
+    e，将整数、浮点数转换成科学计数法，并将其格式化到指定位置（小写e）
+    E，将整数、浮点数转换成科学计数法，并将其格式化到指定位置（大写E）
+    f， 将整数、浮点数转换成浮点数表示，并将其格式化到指定位置（默认保留小数点后6位）
+    F，同上
+    g，自动调整将整数、浮点数转换成 浮点型或科学计数法表示（超过6位数用科学计数法），并将其格式化到指定位置（如果是科学计数则是e；）
+    G，自动调整将整数、浮点数转换成 浮点型或科学计数法表示（超过6位数用科学计数法），并将其格式化到指定位置（如果是科学计数则是E；）
+    %，当字符串中存在格式化标志时，需要用 %%表示一个百分号
+</code></pre><p><strong>格式化字符串format</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">res1 = <span class="string">'&#123;&#125;&#123;&#125;&#123;&#125;'</span>.format(<span class="string">'shaoqi'</span>,<span class="number">18</span>,<span class="string">'male'</span>)    <span class="comment"># 不设置指定位置，按默认顺序</span></div><div class="line">res2 = <span class="string">'&#123;1&#125;&#123;0&#125;&#123;1&#125;'</span>.format(<span class="string">'shaoqi'</span>,<span class="number">18</span>,<span class="string">'male'</span>)    <span class="comment"># 位置参数</span></div><div class="line">res3 = <span class="string">'&#123;name&#125;&#123;sex&#125;&#123;age&#125;'</span>.format(sex=<span class="string">'male'</span>,name=<span class="string">'shaoqi'</span>,age=<span class="number">18</span>)    <span class="comment"># 关键字参数</span></div></pre></td></tr></table></figure>
+<p>注：数字格式化的format方法参见：<a href="http://www.runoob.com/python/att-string-format.html" target="_blank" rel="external">http://www.runoob.com/python/att-string-format.html</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 笔记 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[【笔记】Python基础篇（一）数据类型]]></title>
       <url>/2017/08/14/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91Python%E5%9F%BA%E7%A1%80%E7%AF%87%EF%BC%88%E4%B8%80%EF%BC%89%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
       <content type="html"><![CDATA[<h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2><p><img src="http://upload-images.jianshu.io/upload_images/4101271-2910ac26266ef0ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
