@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="alpaca-balabala" />
+
+
+
+<meta name="description" content="List和Tuple都是Python中基本的数据类型，二者用法基本相似，最大的区别就是列表的元素可变，而元组的元素不可变。此外深浅拷贝问题也有助于理解变量引用，python中提供了内置copy模块，来实现对数据的深浅拷贝。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【笔记】Python基础篇（三）列表和元组">
+<meta property="og:url" content="http://alpaca-balabala.github.io/2017/08/16/【笔记】Python基础篇（三）列表和元组/index.html">
+<meta property="og:site_name" content="balabala&#39;s Blog">
+<meta property="og:description" content="List和Tuple都是Python中基本的数据类型，二者用法基本相似，最大的区别就是列表的元素可变，而元组的元素不可变。此外深浅拷贝问题也有助于理解变量引用，python中提供了内置copy模块，来实现对数据的深浅拷贝。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4101271-14c0dbe65a858eda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-16/0.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-16/1.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-16/2.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-16/3.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-16/4.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-16/5.png">
+<meta property="og:image" content="http://alpaca-balabala.github.io/images/2017-08-16/6.png">
+<meta property="og:updated_time" content="2017-08-15T18:27:59.339Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【笔记】Python基础篇（三）列表和元组">
+<meta name="twitter:description" content="List和Tuple都是Python中基本的数据类型，二者用法基本相似，最大的区别就是列表的元素可变，而元组的元素不可变。此外深浅拷贝问题也有助于理解变量引用，python中提供了内置copy模块，来实现对数据的深浅拷贝。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4101271-14c0dbe65a858eda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="balabala&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>【笔记】Python基础篇（三）列表和元组 | balabala&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">alpaca-balabala</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:hljshaoqi@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="https://weibo.com/" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/alpaca-balabala" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://woaielf.github.io/">ZY | 数林觅风</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://ibruce.info/">不如</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://forsigner.com/">forsigner</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://github.com/jobbole/awesome-python-cn">Pyrhon资源大全</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">alpaca-balabala</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">alpaca-balabala</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:hljshaoqi@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="https://weibo.com/" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/alpaca-balabala" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-【笔记】Python基础篇（三）列表和元组" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/16/【笔记】Python基础篇（三）列表和元组/" class="article-date">
+      <time datetime="2017-08-15T18:12:20.000Z" itemprop="datePublished">2017-08-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【笔记】Python基础篇（三）列表和元组
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/笔记/">笔记</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2><p><img src="http://upload-images.jianshu.io/upload_images/4101271-14c0dbe65a858eda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>list是一种有序的集合，可以随时添加和删除其中的元素。即元素可变。</p>
+<h3 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h3><p><strong>比较操作符</strong><br>Python 3.X 的版本中已经没有 cmp 函数，如果你需要实现比较功能，需要引入 operator 模块，适合任何对象，包含的方法有：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">operator.lt(a, b)</div><div class="line">operator.le(a, b)</div><div class="line">operator.eq(a, b)</div><div class="line">operator.ne(a, b)</div><div class="line">operator.ge(a, b)</div><div class="line">operator.gt(a, b)</div></pre></td></tr></table></figure></p>
+<p>如果比较的元素是同类型的,则比较其值,返回结果。<br>如果两个元素不是同一种类型,则检查它们是否是数字。</p>
+<ul>
+<li>如果是数字,执行必要的数字强制类型转换,然后比较。</li>
+<li>如果有一方的元素是数字,则另一方的元素”大”(数字是”最小的”)</li>
+<li>否则,通过类型名字的字母顺序进行比较。</li>
+</ul>
+<p>如果有一个列表首先到达末尾,则另一个长一点的列表”大”。<br>如果我们用尽了两个列表的元素而且所 有元素都是相等的,那么结果就是个平局,就是说返回一个 0。</p>
+<p><strong>序列类型操作符</strong><br>列表对 + 和 * 的操作符与字符串相似。+ 号用于组合列表，* 号用于重复列表。</p>
+<ul>
+<li>len([1, 2, 3])——-长度（3）</li>
+<li>[1, 2, 3] + [4, 5, 6]——-组合（[1,2,3,4,5,6]）</li>
+<li>[‘Hi!’] * 4——-重复（[‘Hi!’,’Hi!’,’Hi!’,’Hi!’]）</li>
+<li>3 in [1, 2, 3]——元素是否在列表中（True）</li>
+</ul>
+<p>注：对于列表的组合操作使用list1.extend(list2)更佳</p>
+<p><strong>列表解析</strong></p>
+<p><code>[i for i in range(10)]</code></p>
+<h3 id="内建函数"><a href="#内建函数" class="headerlink" title="内建函数"></a>内建函数</h3><p><strong>序列类型</strong></p>
+<ul>
+<li>len()/sum()/max()/min()</li>
+<li>sorted()/reversed()</li>
+<li>enumerate()/zip()</li>
+<li>list()/tuple()</li>
+</ul>
+<p>其中聚合函数max、min以及sorted均可传递key参数，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">list = [<span class="number">1</span>,<span class="number">3</span>,<span class="string">"s"</span>,<span class="string">"d"</span>,<span class="number">2</span>]</div><div class="line">max(list, key=<span class="keyword">lambda</span> x: str(x))    <span class="comment"># 结果：s</span></div></pre></td></tr></table></figure>
+<p><strong>列表类型</strong></p>
+<ul>
+<li>list.count()——-计数</li>
+<li>list.index()——-查找</li>
+<li>list.append()——-末尾添加</li>
+<li>list.insert(1, ‘nb’)——-插入</li>
+<li>list1.extend(list2)——末尾追加序列中多个值</li>
+<li>list.pop()——-移除元素，默认最后一个；或删除指定位置元素</li>
+<li>list.remove()——-移除某值的第一个匹配项</li>
+<li>list.sort()/list.reverse()——-排序/逆序</li>
+</ul>
+<p>注：sort() 函数用于对原列表进行排序，如果指定参数，则使用比较函数指定的比较函数。语法：<code>list.sort([func])</code></p>
+<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><ul>
+<li>Python的元组与列表类似，不同之处在于元组的元素不能修改。</li>
+<li>元组使用小括号，列表使用方括号。</li>
+<li>由于元组不可变，也就没有append、insert这样的方法。</li>
+<li>一旦初始化就不能修改</li>
+</ul>
+<p><strong>元组不可变的意义：</strong>因为tuple不可变，所以代码更安全。如果可能，能用tuple代替list就尽量用tuple。<code>可以作为字典的键</code></p>
+<p><strong>元组的陷阱：</strong>当你定义一个tuple时，在定义的时候，tuple的元素就必须被确定下来。</p>
+<p><strong>消除歧义：</strong>只有1个元素的元组定义时必须加一个逗号<code>,</code>来消除小括号的歧义。</p>
+<h3 id="内建函数-1"><a href="#内建函数-1" class="headerlink" title="内建函数"></a>内建函数</h3><p><strong>序列类型：</strong>同list</p>
+<p><strong>元组类型（BIF）：</strong>仅剩</p>
+<ul>
+<li>count()</li>
+<li>index()</li>
+</ul>
+<h3 id="特殊特性"><a href="#特殊特性" class="headerlink" title="特殊特性"></a>特殊特性</h3><p>回顾：不可变类型：<code>数字</code>、<code>字符串</code>、<code>元组</code></p>
+<p><strong>并非不可变：</strong>来看一个”可变的”元组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>t = (<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'A'</span>, <span class="string">'B'</span>])</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>t[<span class="number">2</span>][<span class="number">0</span>] = <span class="string">'X'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>t[<span class="number">2</span>][<span class="number">1</span>] = <span class="string">'Y'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>t</div><div class="line">(<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'X'</span>, <span class="string">'Y'</span>])</div></pre></td></tr></table></figure>
+<p>这个tuple定义的时候有3个元素，分别是<code>&#39;a&#39;</code>，<code>&#39;b&#39;</code>和一个list。不是说tuple一旦定义后就不可变了吗？怎么后来又变了？</p>
+<p>别急，我们先看看定义的时候tuple包含的3个元素：</p>
+<p><img src="../../../../images/2017-08-16/0.png" alt=""><br>当我们把list的元素<code>&#39;A&#39;</code>和<code>&#39;B&#39;</code>修改为<code>&#39;X&#39;</code>和<code>&#39;Y&#39;</code>后，tuple变为：</p>
+<p><img src="../../../../images/2017-08-16/1.png" alt=""><br>表面上看，tuple的元素确实变了，但其实变的不是tuple的元素，而是list的元素。tuple一开始指向的list并没有改成别的list，所以，tuple所谓的“不变”是说，tuple的每个元素，指向永远不变。即指向’a’，就不能改成指向’b’，指向一个list，就不能改成指向其他对象，但指向的这个list本身是可变的！</p>
+<p><strong>总结：</strong>理解了“指向不变”后，要创建一个内容也不变的tuple怎么做？那就必须保证tuple的每一个元素本身也不能变。</p>
+<h2 id="拷贝问题"><a href="#拷贝问题" class="headerlink" title="拷贝问题"></a>拷贝问题</h2><p><strong>python内存中变量的存储情况：</strong>在高级语言中，变量是对内存及其地址的抽象。对于python而言，python的一切变量都是对象，变量的存储，采用了引用语义的方式，存储的只是一个变量的值所在的内存地址，而不是这个变量的只本身。</p>
+<blockquote>
+<p>引用语义：在python中，变量保存的是对象(值)的引用，我们称为引用语义。采用这种方式，变量所需的存储空间大小一致，因为变量只是保存了一个引用。也被称为对象语义和指针语义。</p>
+<p>值语义：有些语言采用的不是这种方式，它们把变量的值直接保存在变量的存储区里，这种方式被我们称为值语义，例如C语言，采用这种存储方式，每一个变量在内存中所占的空间就要根据变量实际的大小而定，无法固定下来。</p>
+<p>值语义和引用语义的区别：<br>值语义：   死的、 傻的、 简单的、 具体的、 可复制的<br>引用语义： 活的、 聪明的、 复杂的、 抽象的、 不可复制的</p>
+</blockquote>
+<p><strong>一图胜千言：</strong></p>
+<p><img src="../../../../images/2017-08-16/2.png" alt=""></p>
+<p><strong>基本数据类型的地址存储及改变情况：</strong></p>
+<blockquote>
+<p>在python中的数据类型包括：bool、int、long、float、str、set、list、tuple、dict等等。我们可以大致将这些数据类型归类为简单数据类型和复杂的数据结构。</p>
+<p>我的划分标准是，如果一个数据类型，可以将其他的数据类型作为自己的元素，我就认为这是一种数据结构。数据结构的分类有很多种，但是在Python中常用的只有<code>集合</code>、<code>序列</code>和<code>映射</code>三种结构。对应python中的set、list(tuple、str)、dict；常用的数据类型有int、long、float、bool、str等类型。（其中，str类型比较特别，因为从C语言的角度来说，str其实是一个char的集合，但是这与本文的关联不大，所以我们暂时不谈这个问题）</p>
+</blockquote>
+<p><img src="../../../../images/2017-08-16/3.png" alt=""></p>
+<p>由于python中的变量都是采用的引用语义，数据结构可以包含基础数据类型，导致了在python中数据的存储是下图这种情况，每个变量中都存储了这个变量的地址，而不是值本身；对于复杂的数据结构来说，里面的存储的也只只是每个元素的地址而已。</p>
+<p><img src="../../../../images/2017-08-16/4.png" alt=""></p>
+<p><em><u>python为这种需求提供了copy模块。提供了两种主要的copy方法，一种是普通的copy，另一种是deepcopy。我们称前者是浅拷贝，后者为深拷贝。</u></em></p>
+<h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><p><strong>一图胜千言</strong></p>
+<p><img src="../../../../images/2017-08-16/5.png" alt=""></p>
+<p>我们可以知道sourceLst和copyLst列表中都存储了一坨地址，当我们修改了sourceLst1的元素时，相当于用’sourceChange’的地址替换了原来’str1’的地址，所以sourceLst的第一个元素发生了变化。而copyLst还是存储了str1的地址，所以copyLst不会发生改变。</p>
+<p>当sourceLst列表发生变化，copyLst中存储的lst内存地址没有改变，所以当lst发生改变的时候，sourceLst和copyLst两个列表就都发生了改变。</p>
+<p>这种情况发生在字典套字典、列表套字典、字典套列表，列表套列表，以及各种复杂数据结构的嵌套中，所以当我们的数据类型很复杂的时候，用copy去进行浅拷贝就要非常小心！</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> copy</div><div class="line"></div><div class="line">lst = [<span class="string">'str1'</span>, <span class="string">'str2'</span>, <span class="string">'str3'</span>, <span class="string">'str4'</span>, <span class="string">'str5'</span>]</div><div class="line">sourceLst = [<span class="string">'str1'</span>, <span class="string">'str2'</span>, <span class="string">'str3'</span>, <span class="string">'str4'</span>, <span class="string">'str5'</span>, lst]</div><div class="line">copyLst = copy.copy(sourceLst)</div><div class="line">sourceLst[<span class="number">5</span>].append(<span class="string">"new"</span>)</div><div class="line">print(copyLst)</div><div class="line"><span class="comment"># 结果：['str1', 'str2', 'str3', 'str4', 'str5', ['str1', 'str2', 'str3', 'str4', 'str5', 'new']]</span></div></pre></td></tr></table></figure>
+<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><p><strong>一图胜千言</strong><br><img src="../../../../images/2017-08-16/6.png" alt=""></p>
+<p>其实深拷贝就是在内存中重新开辟一块空间，不管数据结构多么复杂，只要遇到可能发生改变的数据类型，就重新开辟一块内存空间把内容复制下来，直到最后一层，不再有复杂的数据类型，就保持其原引用。这样，不管数据结构多么的复杂，数据之间的修改都不会相互影响。这就是深拷贝！</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> copy</div><div class="line"></div><div class="line">lst = [<span class="string">'str1'</span>, <span class="string">'str2'</span>, <span class="string">'str3'</span>, <span class="string">'str4'</span>, <span class="string">'str5'</span>]</div><div class="line">sourceLst = [<span class="string">'str1'</span>, <span class="string">'str2'</span>, <span class="string">'str3'</span>, <span class="string">'str4'</span>, <span class="string">'str5'</span>, lst]</div><div class="line">copyLst = copy.deepcopy(sourceLst)</div><div class="line">sourceLst[<span class="number">5</span>].append(<span class="string">"new"</span>)</div><div class="line">print(copyLst)</div><div class="line"><span class="comment"># 结果：['str1', 'str2', 'str3', 'str4', 'str5', ['str1', 'str2', 'str3', 'str4', 'str5']]</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/08/15/【笔记】Python基础篇（二）字符串和字符编码/">
+                    【笔记】Python基础篇（二）字符串和字符编码
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#思维导图"><span class="toc-number">1.</span> <span class="toc-text">思维导图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">2.</span> <span class="toc-text">列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作符"><span class="toc-number">2.1.</span> <span class="toc-text">操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内建函数"><span class="toc-number">2.2.</span> <span class="toc-text">内建函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元组"><span class="toc-number">3.</span> <span class="toc-text">元组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内建函数-1"><span class="toc-number">3.1.</span> <span class="toc-text">内建函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特殊特性"><span class="toc-number">3.2.</span> <span class="toc-text">特殊特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拷贝问题"><span class="toc-number">4.</span> <span class="toc-text">拷贝问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#浅拷贝"><span class="toc-number">4.1.</span> <span class="toc-text">浅拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深拷贝"><span class="toc-number">4.2.</span> <span class="toc-text">深拷贝</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/08/15/【笔记】Python基础篇（二）字符串和字符编码/" title="下一篇: 【笔记】Python基础篇（二）字符串和字符编码">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/08/16/【笔记】Python基础篇（三）列表和元组/">【笔记】Python基础篇（三）列表和元组</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/15/【笔记】Python基础篇（二）字符串和字符编码/">【笔记】Python基础篇（二）字符串和字符编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/【笔记】Python基础篇（一）数据类型/">【笔记】Python基础篇（一）数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/12/【笔记】二、进程与线程/">【笔记】二、进程与线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/11/【笔记】一、操作系统概述/">【笔记】一、操作系统概述</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017 alpaca-balabala
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        $("a[target=_blank]").removeAttr("target");
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
