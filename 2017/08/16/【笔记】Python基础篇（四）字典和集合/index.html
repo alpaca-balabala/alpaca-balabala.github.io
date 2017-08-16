@@ -15,18 +15,20 @@
 
 
 
-<meta name="description" content="操作系统（Operating System，OS）是配置在计算机硬件上的第一层软件，是对硬件系统的首次扩充。其主要作用是管理好这些设备，提高它们的利用率和系统的吞吐量，并为用户和应用程序提供一个简单的接口，便于用户使用。OS是现代计算机系统中最基本和最重要的系统软件，而其它的诸如编译程序、数据库管理系统等系统软件，以及大量的应用软件，都直接依赖于操作系统的支持，取得它所提供的服务。事实上OS已成为">
-<meta name="keywords" content="OS">
+<meta name="description" content="Python内置了字典：dict的支持，dict全称dictionary，在其他语言中也称为map，使用键-值（key-value）存储，具有极快的查找速度。set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key。">
+<meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【笔记】一、操作系统概述">
-<meta property="og:url" content="http://alpaca-balabala.github.io/2017/08/11/【笔记】一、操作系统概述/index.html">
+<meta property="og:title" content="【笔记】Python基础篇（四）字典和集合">
+<meta property="og:url" content="http://alpaca-balabala.github.io/2017/08/16/【笔记】Python基础篇（四）字典和集合/index.html">
 <meta property="og:site_name" content="balabala&#39;s Blog">
-<meta property="og:description" content="操作系统（Operating System，OS）是配置在计算机硬件上的第一层软件，是对硬件系统的首次扩充。其主要作用是管理好这些设备，提高它们的利用率和系统的吞吐量，并为用户和应用程序提供一个简单的接口，便于用户使用。OS是现代计算机系统中最基本和最重要的系统软件，而其它的诸如编译程序、数据库管理系统等系统软件，以及大量的应用软件，都直接依赖于操作系统的支持，取得它所提供的服务。事实上OS已成为">
+<meta property="og:description" content="Python内置了字典：dict的支持，dict全称dictionary，在其他语言中也称为map，使用键-值（key-value）存储，具有极快的查找速度。set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-15T06:44:04.673Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4101271-fd6e073315659bdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-08-16T03:16:17.566Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【笔记】一、操作系统概述">
-<meta name="twitter:description" content="操作系统（Operating System，OS）是配置在计算机硬件上的第一层软件，是对硬件系统的首次扩充。其主要作用是管理好这些设备，提高它们的利用率和系统的吞吐量，并为用户和应用程序提供一个简单的接口，便于用户使用。OS是现代计算机系统中最基本和最重要的系统软件，而其它的诸如编译程序、数据库管理系统等系统软件，以及大量的应用软件，都直接依赖于操作系统的支持，取得它所提供的服务。事实上OS已成为">
+<meta name="twitter:title" content="【笔记】Python基础篇（四）字典和集合">
+<meta name="twitter:description" content="Python内置了字典：dict的支持，dict全称dictionary，在其他语言中也称为map，使用键-值（key-value）存储，具有极快的查找速度。set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4101271-fd6e073315659bdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -58,7 +60,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>【笔记】一、操作系统概述 | balabala&#39;s Blog</title>
+<title>【笔记】Python基础篇（四）字典和集合 | balabala&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -266,11 +268,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-【笔记】一、操作系统概述" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-【笔记】Python基础篇（四）字典和集合" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/11/【笔记】一、操作系统概述/" class="article-date">
-      <time datetime="2017-08-11T14:38:05.000Z" itemprop="datePublished">2017-08-11</time>
+      <a href="/2017/08/16/【笔记】Python基础篇（四）字典和集合/" class="article-date">
+      <time datetime="2017-08-16T03:12:01.000Z" itemprop="datePublished">2017-08-16</time>
 </a>
 
 
@@ -285,7 +287,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      【笔记】一、操作系统概述
+      【笔记】Python基础篇（四）字典和集合
     </h1>
   
 
@@ -300,7 +302,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/">OS</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -310,61 +312,150 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="操作系统的概念、特征、功能和提供的服务"><a href="#操作系统的概念、特征、功能和提供的服务" class="headerlink" title="操作系统的概念、特征、功能和提供的服务"></a>操作系统的概念、特征、功能和提供的服务</h2><h3 id="操作系统的概念"><a href="#操作系统的概念" class="headerlink" title="操作系统的概念"></a>操作系统的概念</h3><p>操作系统是控制和管理计算机软、硬件资源，以尽可能合理、高效的方法为<br>不同用户及其应用程序提供服务的一种系统程序。（即操作系统是一个软件）</p>
+        <h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2><p><img src="http://upload-images.jianshu.io/upload_images/4101271-fd6e073315659bdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>Python内置了字典：dict的支持，dict全称dictionary，在其他语言中也称为map，使用键-值（key-value）存储，具有极快的查找速度。</p>
 <ul>
-<li>从用户使用角度看，既可以直接用命令控制，也可以通过系统调用编程实现。（人机交互桥梁）</li>
-<li>从资源管理的角度来看，操作系统提高系统资源的利用率。（软硬件的管理者）</li>
-<li>从发展的角度看，操作系统是一台虚拟机，它是计算机硬件的首次扩充，又是扩展机。</li>
+<li>字典是另一种可变容器模型，且可存储任意类型对象。</li>
+<li>键必须是唯一的，但值则不必。</li>
+<li>值可以取任何数据类型，但键必须是不可变的，如字符串，数字或元组。</li>
 </ul>
-<h3 id="操作系统的特征"><a href="#操作系统的特征" class="headerlink" title="操作系统的特征"></a>操作系统的特征</h3><ul>
-<li>并发（最基本特征）</li>
-<li>共享</li>
-<li>虚拟</li>
-<li>不确定性</li>
+<h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p><strong>创建：</strong></p>
+<ul>
+<li>d = {key: value}</li>
+<li>d = dict(([k1,v1],[k2,v2]))或dict(k1=v1, k2=v2)</li>
+<li>d = {}.fromkeys((k1, k2), value/None)</li>
 </ul>
-<p>注：并发是操作系统最基本的，后三点都是由并发引起的</p>
-<h3 id="操作系统的功能"><a href="#操作系统的功能" class="headerlink" title="操作系统的功能"></a>操作系统的功能</h3><ul>
-<li>进程管理</li>
-<li>存储管理</li>
-<li>文件管理</li>
-<li>设备管理</li>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">d1 = &#123;<span class="string">"name"</span>: <span class="string">"shaoqi"</span>, <span class="string">"age"</span>: <span class="number">18</span>&#125;</div><div class="line">d2 = dict(([<span class="string">"name"</span>,<span class="string">"shaoqi"</span>],[<span class="string">"age"</span>,<span class="number">18</span>]))</div><div class="line">k1, k2 = <span class="string">"name"</span>, <span class="string">"age"</span></div><div class="line">d2 = dict(k1=<span class="string">"shaoqi"</span>, k2=<span class="number">18</span>)</div><div class="line">d3 = &#123;&#125;.fromkeys((<span class="string">"python"</span>,<span class="string">"java"</span>,<span class="string">"c++"</span>),<span class="string">"language"</span>)</div><div class="line"><span class="comment"># &#123;"python": "language", "c++": "language", "java": "language"&#125;</span></div></pre></td></tr></table></figure>
+<p><strong>访问：</strong></p>
+<ul>
+<li>键：dict.keys()</li>
+<li>值：dict.values()</li>
+<li>键值对元组：dict.items()</li>
 </ul>
-<h3 id="操作系统所能提供的服务"><a href="#操作系统所能提供的服务" class="headerlink" title="操作系统所能提供的服务"></a>操作系统所能提供的服务</h3><p>命令控制接口：命令行，GUI，脚本（批处理），NUI（nature user interface[如：语音识别]）<br>系统调用：创建、打开、读、写、关闭、删除</p>
-<p>API（Application Programming Interface）是多个系统调用和部分代码的综合，比系统调用功能更加强大（高，有多个变种）</p>
-<h2 id="操作系统的发展与分类"><a href="#操作系统的发展与分类" class="headerlink" title="操作系统的发展与分类"></a>操作系统的发展与分类</h2><h3 id="操作系统的发展"><a href="#操作系统的发展" class="headerlink" title="操作系统的发展"></a>操作系统的发展</h3><ul>
-<li>大型计算机、巨型计算机</li>
-<li>军用计算机、工业控制计算机能实时响应</li>
-<li>嵌入式计算机要求精简、功能专一</li>
-<li>便携式设备要求省电，电池持续耐力强</li>
+<p>访问字典中值的方法：</p>
+<ol>
+<li><code>dict[key]</code>如果key不存在会报错</li>
+<li><code>dict.get(key)</code>如果key不存在，则不会报错</li>
+</ol>
+<p><strong>判断key是否存在：</strong></p>
+<ul>
+<li>in / not in</li>
+<li>dict.get(key, -1) # 不指定-1返回<code>None</code></li>
 </ul>
-<h3 id="操作系统的分类"><a href="#操作系统的分类" class="headerlink" title="操作系统的分类"></a>操作系统的分类</h3><ul>
-<li>单用户操作系统</li>
-<li>批处理操作系统：单道批处理；多道批处理。脱机；联机</li>
-<li>分时操作系统</li>
-<li>实时系统：硬实时；软实时</li>
-<li>网络操作系统</li>
-<li>分布式操作系统</li>
-<li>并行操作系统</li>
+<p><strong>删除：</strong></p>
+<ul>
+<li>dict.pop(key) / dict.popitem(); # 返回该条目值 / 键值二元组（字典无序，pop操作随机）</li>
+<li>del dict[‘Name’]; # 删除键是’Name’的条目</li>
+<li>dict.clear();     # 清空词典所有条目</li>
+<li>del dict ;        # 删除词典</li>
 </ul>
-<h2 id="操作系统的运行环境"><a href="#操作系统的运行环境" class="headerlink" title="操作系统的运行环境"></a>操作系统的运行环境</h2><h3 id="内核态与用户态"><a href="#内核态与用户态" class="headerlink" title="内核态与用户态"></a>内核态与用户态</h3><ul>
-<li>操作系统运行的状态（特权指令：只允许在内核态下使用）</li>
-<li>用户代码运行的状态（访管指令：由用户态进入到内核态时使用）</li>
+<p><strong>字典键的特性：</strong>字典值可以没有限制地取任何python对象，既可以是标准的对象，也可以是用户定义的，但键不行。</p>
+<ul>
+<li>（1）不允许同一个键出现两次。创建时如果同一个键被赋值两次，后一个值会被记住</li>
+<li>（2）键必须不可变，所以可以用数字，字符串或元组充当，所以用列表就不行</li>
 </ul>
-<p>注：任何一条系统调用的第一条指令都是访管指令，陷入到内核区</p>
-<h3 id="中断、异常"><a href="#中断、异常" class="headerlink" title="中断、异常"></a>中断、异常</h3><ul>
-<li>中断处理异步事件</li>
-<li>异常（故障、<strong>陷阱</strong>、中止）（是一种软中断）</li>
+<h3 id="内建函数"><a href="#内建函数" class="headerlink" title="内建函数"></a>内建函数</h3><blockquote>
+<p>hash() 判断是否可哈希，可哈希才可作为字典的键</p>
+</blockquote>
+<p><strong>返回值为【迭代器】</strong></p>
+<ul>
+<li>dict.keys()—–以列表返回一个字典所有的键</li>
+<li>dict.values()—–以列表返回字典中的所有值</li>
+<li>dict.items()—–以列表返回可遍历的(键, 值) 元组数组</li>
 </ul>
-<h3 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h3><ul>
-<li>陷入机制（访管指令）</li>
-<li>内核态</li>
+<p><strong>其它</strong></p>
+<ul>
+<li>dict.copy()—–返回一个字典的浅复制</li>
+<li>dict.get(key, default=None)—–返回指定键的值，如果值不在字典中返回default值</li>
+<li>dict.setdefault(key, default=None)—–和get()类似, 但如果键不存在于字典中，将会添加键并将值设为default</li>
+<li>dict.update(dict2)—–把字典dict2的键/值对更新到dict里</li>
 </ul>
-<p>现代操作系统除了提供直接使用系统调用指令的接口外，通常的做法是提供一套方便、实用的应用程序函数库（又称为应用程序设计接口 API）。这些函数从应用的较高层面重新封装了系统调用，一方面屏蔽了复杂的系统调用传参问题，另一方面是高级语言接口，有助于快速开发。还有的系统在更高层面提供了系统程序设计的模板库和类库。</p>
-<h2 id="操作系统体系结构"><a href="#操作系统体系结构" class="headerlink" title="操作系统体系结构"></a>操作系统体系结构</h2><ul>
-<li>整体式（无结构）</li>
-<li>层次式</li>
-<li>微内核（客户/服务器）</li>
-<li>模块式（面向对象）</li>
+<blockquote>
+<p>利用setdefault解决重复赋值：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">s=<span class="string">'come on my girl come on my son'</span></div><div class="line">dic=&#123;&#125;</div><div class="line">words=s.split()</div><div class="line"><span class="keyword">for</span> word <span class="keyword">in</span> words:</div><div class="line">    dic.setdefault(word,words.count(word))</div><div class="line">print(dic)</div><div class="line"><span class="comment"># 结果：&#123;'come':2, 'on':2, 'my':2, 'girl':1, 'son':1&#125;</span></div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>setdefault的功能</p>
+<ul>
+<li>1：key存在，则不赋值，key不存在则设置默认值</li>
+<li>2：key存在，返回的是key对应的已有的值，key不存在，返回的则是要设置的默认值</li>
+</ul>
+<p><strong>字典 VS 列表</strong></p>
+<p>和list比较，dict有以下几个特点：</p>
+<ul>
+<li>查找和插入的速度极快，不会随着key的增加而变慢；</li>
+<li>需要占用大量的内存，内存浪费多。</li>
+</ul>
+<p>而list相反：</p>
+<ul>
+<li>查找和插入的时间随着元素的增加而增加；</li>
+<li>占用空间小，浪费内存很少。</li>
+</ul>
+<p>所以，dict是用空间来换取时间的一种方法。</p>
+<p><strong>为什么字典的键必须是不可变的？</strong></p>
+<blockquote>
+<p>dict可以用在需要高速查找的很多地方，在Python代码中几乎无处不在，正确使用dict非常重要，需要牢记的第一条就是dict的key必须是不可变对象。</p>
+<p>这是因为dict根据key来计算value的存储位置，如果每次计算相同的key得出的结果不同，那dict内部就完全混乱了。这个通过key计算位置的算法称为哈希算法（Hash）。</p>
+<p>要保证hash的正确性，作为key的对象就不能变。在Python中，字符串、整数等都是不可变的，因此，可以放心地作为key。而list是可变的，就不能作为key。</p>
+</blockquote>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>集合的元素遵循三个原则：<br>1：每个元素必须是不可变类型(可hash，可作为字典的key)<br>2：没有重复的元素<br>3：无序</p>
+<p>注意：集合的目的是将不同的值存放到一起，不同的集合间用来做关系运算，无需纠结于集合中单个值</p>
+<p><strong>注：</strong><br>使用key-value存储结构的dict在Python中非常有用，选择不可变对象作为key很重要，最常用的key是字符串。</p>
+<p>tuple虽然是不变对象，但试试把(1, 2, 3)和(1, [2, 3])放入dict或set中，会报错list不是可hash类型。</p>
+<p>原因：list是可变的，tuple是不可变的。(1,[2,3])内有2个元素，1和[2,3]。[2,3]是一个list。虽然tuple指向这个list没变，但这个list本身是可变的，规则要求tuple的每一个元素本身也不能变。(1,[2,3])是一个含有list的tuple，即”可变的”元组，其中list可变，导致哈希化失败。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>成员关系测试</li>
+<li>删除重复元素</li>
+</ul>
+<p><strong>分类：</strong></p>
+<ul>
+<li>可变集合：set</li>
+<li>不可变集合：frozenset</li>
+</ul>
+<p><strong>创建：</strong></p>
+<ul>
+<li>{key1,key2,…}</li>
+<li>工厂函数:set() / frozenset()</li>
+</ul>
+<h3 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h3><p><strong>标准类型：</strong></p>
+<ul>
+<li><code>in</code> / <code>not in</code></li>
+<li><code>&gt;=</code> <code>&gt;</code> <code>&lt;=</code> <code>&lt;</code> <code>==</code> <code>!=</code></li>
+</ul>
+<p><strong>集合类型：</strong></p>
+<p>并集：</p>
+<ul>
+<li><code>set1 | set2</code></li>
+<li><code>set1.union(set2)</code></li>
+</ul>
+<p>交集：</p>
+<ul>
+<li><code>set1 &amp; set2</code></li>
+<li><code>set1.intersection(set2)</code></li>
+</ul>
+<p>差集：</p>
+<ul>
+<li><code>set1 - set2</code></li>
+<li><code>set1.difference(set2)</code></li>
+</ul>
+<p>对称差集（两个集合差别项）：</p>
+<ul>
+<li><code>set1 ^ set2</code></li>
+<li><code>set1.symmetric_difference(set2)</code></li>
+</ul>
+<h3 id="内建函数-1"><a href="#内建函数-1" class="headerlink" title="内建函数"></a>内建函数</h3><p><strong>添加元素：</strong></p>
+<ul>
+<li><code>set.add(key)</code></li>
+<li><code>set.update(seq)</code></li>
+</ul>
+<p><strong>删除元素：</strong></p>
+<ul>
+<li><code>set.pop()</code>—–删除任意一个对象</li>
+<li><code>set.discard(obj)</code>—–若obj存在，则删除它</li>
+<li><code>set.remove(obj)</code>—–若obj不存在，会报错</li>
+</ul>
+<h3 id="集合VS元组"><a href="#集合VS元组" class="headerlink" title="集合VS元组"></a>集合VS元组</h3><ul>
+<li>集合：无序，可看作无value的字典</li>
+<li>元组：有序，可看作不可变的列表</li>
 </ul>
 
       
@@ -377,12 +468,12 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/08/12/【笔记】二、进程与线程/">
-                    【笔记】二、进程与线程
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/08/16/【笔记】Python基础篇（三）列表和元组/">
+                    【笔记】Python基础篇（三）列表和元组
                 </a>
             </div>
-        
         
     </nav>
 
@@ -392,7 +483,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统的概念、特征、功能和提供的服务"><span class="toc-number">1.</span> <span class="toc-text">操作系统的概念、特征、功能和提供的服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系统的概念"><span class="toc-number">1.1.</span> <span class="toc-text">操作系统的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系统的特征"><span class="toc-number">1.2.</span> <span class="toc-text">操作系统的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系统的功能"><span class="toc-number">1.3.</span> <span class="toc-text">操作系统的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系统所能提供的服务"><span class="toc-number">1.4.</span> <span class="toc-text">操作系统所能提供的服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统的发展与分类"><span class="toc-number">2.</span> <span class="toc-text">操作系统的发展与分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系统的发展"><span class="toc-number">2.1.</span> <span class="toc-text">操作系统的发展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系统的分类"><span class="toc-number">2.2.</span> <span class="toc-text">操作系统的分类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统的运行环境"><span class="toc-number">3.</span> <span class="toc-text">操作系统的运行环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内核态与用户态"><span class="toc-number">3.1.</span> <span class="toc-text">内核态与用户态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中断、异常"><span class="toc-number">3.2.</span> <span class="toc-text">中断、异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统调用"><span class="toc-number">3.3.</span> <span class="toc-text">系统调用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统体系结构"><span class="toc-number">4.</span> <span class="toc-text">操作系统体系结构</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#思维导图"><span class="toc-number">1.</span> <span class="toc-text">思维导图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典"><span class="toc-number">2.</span> <span class="toc-text">字典</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作"><span class="toc-number">2.1.</span> <span class="toc-text">操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内建函数"><span class="toc-number">2.2.</span> <span class="toc-text">内建函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合"><span class="toc-number">3.</span> <span class="toc-text">集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作符"><span class="toc-number">3.1.</span> <span class="toc-text">操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内建函数-1"><span class="toc-number">3.2.</span> <span class="toc-text">内建函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集合VS元组"><span class="toc-number">3.3.</span> <span class="toc-text">集合VS元组</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -423,15 +514,15 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/08/12/【笔记】二、进程与线程/" title="上一篇: 【笔记】二、进程与线程">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2017/08/16/【笔记】Python基础篇（三）列表和元组/" title="下一篇: 【笔记】Python基础篇（三）列表和元组">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
     </div>
 
